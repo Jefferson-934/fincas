@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block title %}Usuarios{% endblock %}
+{% block content %}
+
+   <div class="div-boton-crear">
+   <div>
+  <form class="form-inline my-2 my-lg-0" method="GET" >
+    {% csrf_token %}
+      <input name="search" class="form-control mr-sm-2" type="search" placeholder="Buscar por cedula" aria-label="Search" style="border-color:  #09974d;">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+        <i class="fas fa-search"></i> Buscar</button>
+    </form>
+</form>
+   </div>
+     <form method="POST" novalidate class="botons">
+         {% csrf_token %}
+        <button class="btn btn-outline-success my-2 my-sm-0 btn-donwload" type="submit">
+          <i class="fas fa-file-export" ></i> Exportar Datos</button>
+          <div class="">
+
+            <a href="{% url "nuevo_usuarios" %}" class="btn btn-primary color-boton-agregar">
+              <i class="fas fa-plus-circle"></i> AGREGAR USUARIO</a>
+          </div>
+        </form>
+   </div> 
+
+  <div class="mt-5 tabla">
+
+  {% if mensaje %}
+   <div class="alert alert-warning alert-dismissible fade show" role="alert">
+  {{mensaje}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+  {% endif %}
+
+
+  
+  <table class="table table-striped table-hover table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Cedula</th>
+      <th scope="col">Contacto</th>
+      <th scope="col">Correo</th>
+      <th scope="col">Usuario</th>
+      <th scope="col">Estado</th>
+      <th scope="col">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+   {% for usuario in usuarios  %}
+    {% if usuario.is_staff %}
+    
+    
+    {% else %}
+
+ <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td id="name">{{usuario.first_name}} </td>
+      <td>{{usuario.cedula}} </td>
+      <td>{{usuario.celular}} </td>
+      <td>{{usuario.email}} </td>
+      <td>{{usuario.username}} </td>
+      <td>{{usuario.estado}} </td>
+      <td>
+    
+        <a href="{% url "actualizar_usuario" usuario.id %}"  type="submit" class="btn btn-secondary" style="color:white !important;margin-inline-end:24px">
+          <i class="fas fa-edit"></i> ACTUALIZAR</a>
+         <a href="#"onclick="eliminar('/delete_usuario/',{{ usuario.id }})" class="btn btn-outline-danger btn-flat"><i
+                                class="fas fa-trash-alt"></i> ELIMINAR</a>
+    
+
+
+       </td>
+     
+    </tr>
+
+    {% endif %}
+    
+   {% endfor %}
+   
+  </tbody>
+</table>
+  </div>
+
+
+
+<script type="text/javascript">
+  $(document).on('click', '.confirm-delete', function () {
+        $("#confirmDeleteModal").attr("caller-id", $(this).attr("id"));
+      });
+
+    $(document).on('click', '#confirmDeleteButtonModal', function () {
+      var caller = $("#confirmDeleteButtonModal").closest(".modal").attr("caller-id");
+      window.location = $("#".concat(caller)).attr("href");
+    });
+</script>
+  
+{% endblock %}

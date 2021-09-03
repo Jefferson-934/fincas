@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}Editar Planta{% endblock %}
+{% block content %}
+  <div style="margin:24px 0 24px 0">
+  <form method="POST" novalidate enctype="multipart/form-data">
+     {% csrf_token %}
+  <div>
+    <h2 style="color:black" class="text-center">Datos de la Planta</h2>
+  </div>
+  {% for error in form.errors %}
+    {{ error }}
+{% endfor %}
+     <div class="form-group">
+            <label class="label-text" for="exampleInputEmail1">NOMBRE DE LA PLANTA</label>
+            <input value="{{planta.nombre_planta}}" required name="nombre_planta" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+              placeholder="Nombre de la planta">         
+          </div>
+  
+     <div class="form-group">
+            <label class="label-text" for="exampleInputEmail1">NOMBRE CIENTIFICO</label>
+            <input value="{{planta.nombre_cientifico}}" required name="nombre_cientifico" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+              placeholder="Nombre cientifico">         
+          </div>
+     <div class="form-group">
+            <label class="label-text" for="exampleInputEmail1">FAMILIA</label>
+            <input value="{{planta.familia}}" required name="familia" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+              placeholder="Familia">         
+          </div>
+     <div class="form-group">
+            <label class="label-text" for="exampleInputEmail1">GENERO</label>
+            <input value="{{planta.genero}}" required name="genero" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+              placeholder="Genero">         
+          </div>
+   
+ <div class="form-group">
+ <label class="btn btn-secondary" for="id_imagen">
+    <input value="{{planta.imagen}}" accept="image/*" name="imagen" id="id_imagen" required type="file" style="opacity:0" 
+    onchange="$('#upload-file-info').html(this.files[0].name)">
+    Cargar imagen del producto
+</label>
+<span class='label label-info' id="upload-file-info"></span>
+
+ </div>
+            <div class="d-flex justify-content-center">
+
+            <a href="/plantas/" type="submit" class="btn btn-primary w-100" style="background:#DA0037 !important;color:white !important;margin-inline-end:24px">CANCELAR</a>
+            <button type="submit" class="btn btn-primary w-100">GUARDAR</button>
+          </div>
+  </form>
+  </div>
+{% endblock %}

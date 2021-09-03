@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+{% block title %}Nuevo Expediente{% endblock %}
+
+
+  <script>
+  $.fn.datepicker
+  $('[data-toggle="datepicker"]').datepicker();
+$().datepicker({
+  format: 'yyyy-mm-dd',
+    language: "es-ES",
+   autoHide:true
+});
+</script>
+{% block content %}
+
+  <div style="margin:24px 0 24px 0">
+    <h2 style="color:black" class="text-center">Datos del expediente</h2>
+     {% if form.errors %}
+   <div class="alert alert-danger alert-dismissible" role="alert" id="liveAlert" class="liveAlert">
+  <strong>Faltan algunos datos: </strong> 
+  {% for error in form.errors %}
+    {{ error }} -
+{% endfor %}
+  
+</div>
+{% endif %}
+<div class="form-group">
+    <label class="label-text" for="finca_select">FINCA</label>
+    <select class="form-control"  id="finca_select" name="finca_select">
+      <option selected>Seleccione una finca</option>
+      {% for finca in fincas  %}
+      
+  <option type="submit" value="{{finca.pk}}">{{finca.nombre_finca}}</option>
+ 
+  {% endfor %}
+  
+    </select>
+  </div>
+
+  <div class="form-group">
+  <button type="submit" onclick="obtenerDatos()" class="btn btn-primary w-100">Cargar Datos</button>
+  <br/>
+  </div>
+  <form method="POST" novalidate enctype="multipart/form-data">
+     {% csrf_token %}
+     <div class="form-group">
+      <label class="label-text" for="finca_select">FINCA</label>
+      <select class="form-control"  id="finca" name="finca">
+      <option selected>Seleccione una finca</option>
+      {% for finca in fincas  %}
+      
+         <option type="submit" value="{{finca.pk}}">{{finca.nombre_finca}}</option>
+ 
+       {% endfor %}
+  
+      </select>
+    </div>
+
+
+     <div class="form-group">
+            <label class="label-text" for="exampleInputEmail1">DIRECCION</label>
+            <input
+             id="direccion" required name="direccion" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+              placeholder="Dirección"/>         
+      </div>
+
+    <div class="form-group">
+    <label class="label-text" for="propietario">PROPIETARIO</label>
+    <select class="form-control"  id="propietario" name="propietario">
+      <option selected>Seleccione un propietario</option>
+      {% for propietario in propietarios  %}
+      
+          <option type="submit" value="{{propietario.pk}}">{{propietario.first_name}}</option>
+ 
+        {% endfor %}
+  
+    </select>
+    </div>
+     <div class="form-group">
+            <label class="label-text" for="exampleInputEmail1">HECTÁREAS</label>
+            <input
+            id="identificacion" required name="identificacion" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+              placeholder="Hectáreas">         
+          </div>
+     <div class="form-group">
+            <label class="label-text" for="exampleInputEmail1">TOTAL DE CULTIVOS</label>
+            <input
+             id="total_cultivos" required name="total_cultivos" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+              placeholder="Total de cultivos">         
+          </div>
+     <div class="form-group">
+            <label class="label-text" for="exampleInputEmail1">TOTAL DE PLANTAS</label>
+            <input
+             id="total_plantas" required name="total_plantas" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+              placeholder="Total de plantas">         
+          </div>
+     <div class="form-group">
+            <label class="label-text" for="exampleInputEmail1">PLANTAS EXISTENTES</label>
+            <input
+             id="plantas_existentes" required name="plantas_existentes" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+              placeholder="Plantas existentes">         
+          </div>
+          
+            <div class="d-flex justify-content-center">
+
+            <a href="/expedientes/" type="submit" class="btn btn-primary w-100" style="background:#DA0037 !important;color:white !important;margin-inline-end:24px">CANCELAR</a>
+            <button type="submit" class="btn btn-primary w-100">GUARDAR</button>
+          </div>
+  </form>
+  </div>
+
+  {% comment %} 
+finca
+direccion
+identificacion
+propietario
+total_cultivos
+plantas_existentes
+total_plantas {% endcomment %}
+
+
+
+<script>
+
+async function obtenerDatos(){
+  
+    let finca=$( "#finca_select option:selected" ).text();
+    if(finca==="Seleccione una finca"){
+        return alert("Debe seleccionar una finca")
+    }
+    console.log(finca)
+    data = JSON.stringify({
+    finca: finca,
+   
+})
+
+let csrftoken = getCookie('csrftoken');
+let response = await fetch("/obtener_datos/", {
+    method: 'POST',
+    body: data,
+    headers: { 'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+        "X-CSRFToken": csrftoken },
+})
+ let datos = await response.json();
+ 
+ let stringplantas=""
+ datos.plantas_existentes.map(ele=>{
+     stringplantas = stringplantas + ele +" "
+ })
+ if(stringplantas.length===0){
+   stringplantas="Sin plantas"
+ }
+ console.log(datos.total_plantas)
+ console.log("1") 
+ $("#finca").val(datos.finca).change();
+ $("#propietario").val(datos.propietario).change();
+//document.getElementById("finca").value=datos.finca
+let direccion=document.getElementById("direccion").value=datos.direccion
+let identificacion=document.getElementById("identificacion").value=datos.identificacion
+
+let total_cultivos=document.getElementById("total_cultivos").value=datos.total_cultivos
+let plantas_existentes=document.getElementById("plantas_existentes").value=stringplantas
+let total_plantas=document.getElementById("total_plantas").value=datos.total_plantas
+
+
+
+/*finca
+direccion
+identificacion
+propietario
+total_cultivos
+plantas_existentes
+total_plantas*/
+}
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+</script>
+
+{% endblock %}

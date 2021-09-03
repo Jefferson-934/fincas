@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+
+
+{% load static %}
+
+{% block content %}
+<center><div id="card" style="width: 600px; height: 550px;">
+  <div class="card-body">
+    <div style="display:flex;justify-content:center">
+        <div class="">
+          <center><img style="width:105px;margin-inline-end:25px" src="{% static 'img/permatree.png' %}">
+            <strong> 
+              <p class="title-login" style="color:#fdfffe">PERMATREE SUPERFOODS</p>
+            </strong>
+        </div>
+    </div>
+    {% if error %}
+    
+    <div class="alert alert-danger alert-dismissible" role="alert" id="liveAlert">
+      <strong>{{error}} </strong> 
+    </div>
+
+    {% endif %}
+      <div id="card-content">
+        <form method="POST" novalidate>
+          {% csrf_token %}
+          <div class="form-group">
+            <label style="font-size:16px;font-weight:bold ;color:white;" for="exampleInputEmail1">USUARIO</label>
+            <input name="username" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+              placeholder="Usuario">
+        
+          </div>
+          <div class="form-group">
+            <label style="font-size:16px;font-weight:bold ;color:white;" for="exampleInputPassword1">CONTRASEÑA</label>
+            <input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Contraseña">
+          </div>
+          <div class="d-flex justify-content-center">
+
+            <button type="submit" class="btn btn-login"><strong>Iniciar Sesión</strong> </button>
+          </div>
+        </form>
+      </div>
+  </div>
+</div>
+{% endblock %}

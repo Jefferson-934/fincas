@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% block title %}Perfil Finca{% endblock %}
+{% block content %}
+{% if finca %}
+<div style="margin-bottom:24px; border-color: #06954B;">
+    <div style="border-color: #06954B;">
+   
+    <h1>{{finca.nombre_finca}} </h1>
+    <h5 style="color:#2f2f2f">{{finca.ubicacion}} </h5>
+    <h5 style="color:#2f2f2f">{{finca.propietario}} </h5>
+    </div>
+    <div>
+    </div>
+    <br/>
+    <div onload="return initMap({{finca.latitud}},{{finca.longitud}})" class="mapa-imagen">
+     <div id="" style="width:300px;margin-inline-end:24px">
+     <img  style="width:300px" src={{finca.imagen.url}} />
+  </div>
+     <div id="mapa" class="mapa">
+  </div>
+    </div>
+    <div>
+    <br/>
+     <h3  style="color:#2f2f2f; font-size: 30px;">Cultivos </h3>
+    <hr />
+     {% for cultivo in cultivos %}
+       <div class="cultivo" style="border-color: black;" >
+        <h3>Planta: {{cultivo.planta}} </h3>
+        <h5>Nomber del lote: {{cultivo.nombre_lote}} </h5>
+        <h5>Domención del lote: {{cultivo.dimancion_lote}} </h5>
+        <h5>Fecha de siembra: {{cultivo.fecha_siembra}} </h5>
+        <h5>Tiempo de cosecha: {{cultivo.tiempo_cosecha}} </h5>
+       </div> 
+
+     {% endfor %}
+    </div>
+</div>
+{% else %}
+<div> 
+No tienes fincas registradas
+</div>
+{% endif %}
+
+
+<div onload=""></div>
+<div onload="hello()"></div>
+
+{% comment %} 
+nombre_finca
+ubicacion
+latitud
+longitud
+propietario
+imagen
+ {% endcomment %}
+
+
+
+  
+<script async defe src="https://maps.googleapis.com/maps/api/js?key=AIzaSyArd8ySacI8YgCNN0oOj3p59zLf6RkS-5c">
+</script>
+
+
+<script src="http://code.jquery.com/jquery-git.js">
+</script>
+
+
+
+ <script>
+
+    function hello(){
+	
+}
+$(function(){
+	$('div[onload]').trigger('onload');
+});
+ 
+
+    if(navigator.geolocation){
+          //  navigator.geolocation.getCurrentPosition(getCoords,getError)
+    }else{
+
+    }
+
+    function getCoords(position){
+        let lat=position.coords.latitude; 
+        let long=position.coords.longitude;
+        initMap(lat,long); 
+    }
+
+    function getError(err){
+
+        initMap(13.30272,-87.194107); 
+    }
+    function initMap(lat,long){
+        console.log("jkasndljkasbdjsk")
+        let latpa=parseFloat(parseFloat(lat).toFixed(7))
+        let lngpa=parseFloat(parseFloat(long).toFixed(7))
+        console.log(parseFloat(latpa).toFixed(7))
+        console.log(parseFloat(lngpa).toFixed(7))  
+
+      setTimeout(()=>{
+         let latlong= new google.maps.LatLng(latpa,lngpa);
+       let mapSettings={
+           center: latlong,
+           zoom:12,
+           mapTypeId: google.maps.MapTypeId.ROADMAP
+       }
+
+      var map = new google.maps.Map(document.getElementById("mapa"), mapSettings);
+       let marker = new google.maps.Marker({
+        position: latlong,
+        map: map,
+        draggable:true,
+        title:"Arrastrame"
+      });
+
+      google.maps.event.addListener(marker,"position_changed",function(){
+          getMarkerCoords(marker);
+      })
+      },3000)
+    }
+
+    function getMarkerCoords(marker){
+        var marketCoords= marker.getPosition();
+        $("#latitud").val(marketCoords.lat())
+        $("#longitud").val(marketCoords.lng())
+    }
+
+</script>
+{% endblock %}

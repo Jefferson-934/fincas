@@ -1,0 +1,103 @@
+{% extends 'base.html' %} {% block title %}Fincas{% endblock %} {% block content %}
+
+<div class="div-boton-crear">
+    <div>
+        <form class="form-inline my-2 my-lg-0" method="GET">
+            {% csrf_token %}
+            <input name="search" class="form-control mr-sm-2" type="search" placeholder="Buscar por nombre" aria-label="Search" style="border-color:  #09974d;">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"> 
+                <i class="fas fa-search"></i> Buscar</button>
+        </form>
+
+    </div>
+
+    <form method="POST" novalidate class="botons" >
+        {% csrf_token %}
+        <button class="btn btn-outline-success my-2 my-sm-0 btn-donwload" type="submit">
+            <i class="fas fa-file-export" ></i> Exportar Datos
+
+        </button >
+        <div class="">
+
+            <a href="{% url 'nuevo_finca' %}" class="btn btn-primary color-boton-agregar">
+                <i class="fas fa-plus-circle" ></i> AGREGAR FINCA</a>
+        </div>
+    </form>
+</div>
+
+<div class="mt-5 tabla">
+    {% if mensaje %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endif %}
+</div>
+
+
+<form>
+    <div class="container mb-5">
+        <div class="row">
+            {% for finca in fincas %}
+
+            <div class="col-md-auto" style="border-color:  #09974d;">
+                <div class="card text-center" style="border-radius: 6px; border-color:  #09974d;">
+                    <div class="card-header">
+
+                        <h5>{{finca.nombre_finca}}</h5>
+                        {{finca.ubicacion}}
+                    </div>
+                    <div class="card-body"  style="border-color:  #09974d;">
+                        <img width="150px" src="{{ finca.imagen.url }}" />
+                    </div>
+                    <div class="card-footer text-muted" style="text-align: initial; border-color: #09974d; background-color: #B0D136;">
+                        <p style="color: black;" !important>Propietario: {{finca.propietario}} </p>
+                        <p style="color: black;" !important>Contacto: {{finca.propietario.celular}} </p>
+                        <a href="{% url 'perfil_fincas' finca.id %}"> Ver Detalles </a>
+                        <div class="modal-footer" style="justify-content:center !important; border-color:#09974d ; " >
+                            {% if finca.estado == False %}
+                            <a href="#" onclick="activar('/activar_finca/',{{ finca.id }})" class="btn btn-outline-danger btn-flat"><i
+                                class="fas fa-trash-alt"></i>ACTIVAR</a> {% else %}
+                            <a href="{% url 'actualizar_finca' finca.id %}" type="submit" class="btn btn-secondary" style="color:white !important;margin-inline-end:24px">
+                                <i class="fas fa-edit"></i> ACTUALIZAR</a>
+                            <a href="#" onclick="eliminar('/delete_finca/',{{ finca.id }})" class="btn btn-outline-danger btn-flat"><i
+                                class="fas fa-trash-alt"></i> ELIMINAR</a> {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            {% endfor %}
+        </div>
+    </div>
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    $(document).on('click', '.confirm-delete', function() {
+        $("#confirmDeleteModal").attr("caller-id", $(this).attr("id"));
+    });
+
+    $(document).on('click', '#confirmDeleteButtonModal', function() {
+        var caller = $("#confirmDeleteButtonModal").closest(".modal").attr("caller-id");
+        window.location = $("#".concat(caller)).attr("href");
+    });
+</script>
+
+{% endblock %}

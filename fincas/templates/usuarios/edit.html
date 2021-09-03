@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Editar Usuario{% endblock %}
+{% block content %}
+  <div style="margin:24px 0 24px 0">
+  <form method="POST" novalidate>
+     {% csrf_token %}
+  <div>
+    <h2 style="color:white" class="text-center">Actualizar Usuario</h2>
+  </div>
+     <div class="form-group">
+            <label class="label-text" for="exampleInputEmail1">USUARIO</label>
+            <input 
+            value="{{usuario.username}}"
+            name="username" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+              placeholder="Usuario">         
+          </div>
+    
+     <div class="form-group">
+            <label class="label-text" for="exampleInputEmail1">CEDULA</label>
+            <input value="{{usuario.cedula}}" name="cedula" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+              placeholder="CEDULA">         
+          </div>
+     <div class="form-group">
+            <label class="label-text" for="exampleInputEmail1">CELULAR</label>
+            <input value="{{usuario.celular}}" name="celular" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+              placeholder="CELULAR">         
+          </div>
+     <div class="form-group">
+            <label class="label-text" for="exampleInputEmail1">NOMBRES</label>
+            <input value="{{usuario.first_name}}" name="first_name" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+              placeholder="NOMBRES">         
+          </div>
+     <div class="form-group">
+            <label class="label-text" for="exampleInputEmail1">CORREO ELECTRÓNICO</label>
+            <input value="{{usuario.email}}" name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+              placeholder="CORREO ELECTRÓNICO">         
+          </div>
+            <div class="d-flex justify-content-center">
+
+            <a href="/usuarios/" type="submit" class="btn btn-primary w-100" style="background:#DA0037 !important;color:white !important;margin-inline-end:24px">CANCELAR</a>
+            <button type="submit" class="btn btn-primary w-100">GUARDAR</button>
+          </div>
+  </form>
+  </div>
+{% endblock %}

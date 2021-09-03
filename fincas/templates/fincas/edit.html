@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% block title %}Editar Finca{% endblock %}
+
+
+  <script>
+  $.fn.datepicker
+  $('[data-toggle="datepicker"]').datepicker();
+$().datepicker({
+  format: 'yyyy-mm-dd',
+    language: "es-ES",
+   autoHide:true
+});
+
+  
+</script>
+{% block content %}
+
+  <div style="margin:24px 0 24px 0">
+  <form method="POST" novalidate enctype="multipart/form-data">
+     {% csrf_token %}
+  <div>
+    <h2 style="color:black" class="text-center">Datos de la finca</h2>
+  </div>
+  {% for error in form.errors %}
+    {{ error }}
+{% endfor %}
+     <div class="form-group">
+            <label class="label-text" for="exampleInputEmail1">NOMBRE DE LA FINCA</label>
+            <input value="{{finca.nombre_finca}}" required name="nombre_finca" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+              placeholder="Nombre de la finca">         
+          </div>
+  
+     <div class="form-group">
+            <label class="label-text" for="exampleInputEmail1">UBICACIÓN</label>
+            <input value="{{finca.ubicacion}}" required name="ubicacion" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+              placeholder="Ubicación">         
+          </div>
+
+    
+
+    <div class="form-group">
+ <label class="btn btn-secondary" for="id_imagen">
+    <input value="{{finca.imagen}}" style="width:1px !important" accept="image/*" name="imagen" id="id_imagen" required type="file" style="opacity:0" 
+    onchange="$('#upload-file-info').html(this.files[0].name)">
+    Cargar imagen de la finca
+</label>
+<span class='label label-info' id="upload-file-info"></span>
+
+ </div>
+
+       
+
+
+<div class="form-group">
+    <label class="label-text" for="exampleFormControlSelect1">Propietario</label>
+    <select class="form-control" id="exampleFormControlSelect1" name="propietario">
+      <option >Seleccione un propietario</option>
+      {% for propietario in propietarios  %}
+    {% if propietario.pk == finca.propietario.pk %}
+    <option selected value="{{propietario.pk}}">{{propietario.first_name}}</option>
+    {% else %}
+    <option value="{{propietario.pk}}">{{propietario.first_name}}</option>
+    
+    {% endif %}
+  {% endfor %}
+  
+    </select>
+  </div>
+  
+   <div class="form-group">
+            <label class="label-text" for="exampleInputEmail1">LATITUD</label>
+           <input onchange="return initMap()" value="{{finca.latitud}}" id="latitud" required name="latitud" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+              placeholder="Latitud">  
+          </div>
+
+     <div class="form-group">
+            <label class="label-text" for="exampleInputEmail1">LONGITUD</label>
+            <input value="{{finca.longitud}}" id="longitud" required name="longitud" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+              placeholder="Longitud">         
+          </div>
+          <div class="form-group">
+            <label class="label-text" for="exampleInputEmail1">Mueva el marker en el mapa para cargar la latitu y longitud</label>
+ <div id="mapa" class="mapa">
+  </div>
+  </div>
+            <div class="d-flex justify-content-center">
+
+            <a href="/fincas/" type="submit" class="btn btn-primary w-100" style="background:#DA0037 !important;color:white !important;margin-inline-end:24px">CANCELAR</a>
+            <button type="submit" class="btn btn-primary w-100">GUARDAR</button>
+          </div>
+  </form>
+  </div>
+
+  <script async defe src="https://maps.googleapis.com/maps/api/js?key=AIzaSyArd8ySacI8YgCNN0oOj3p59zLf6RkS-5c">
+</script>
+ 
+  <script>
+
+$('[data-toggle="datepicker"]').datepicker();
+$().datepicker({
+  format: 'yyyy-mm-dd',
+   language: "es-ES",
+   autoHide:true
+});
+
+  let lat=$("#latitud").val()
+  let lng=$("#latitud").val()
+
+  
+    if(navigator.geolocation){          
+        let lata=$("#latitud").val(); 
+        let longi=$("#longitud").val();
+        let latpa=parseFloat(parseFloat(lata).toFixed(7))
+        let lngpa=parseFloat(parseFloat(longi).toFixed(7))
+        console.log(parseFloat(lata).toFixed(7))
+        console.log(parseFloat(longi).toFixed(7))
+        initMap(latpa,lngpa); 
+    }else{
+
+    }
+
+    
+
+    
+    function initMap(lat,long){
+       console.log("lat",lat)
+        console.log("long",long)
+        console.log("type",-3.809005)
+      setTimeout(()=>{
+        console.log(window.google)
+        let LatLng = new google.maps.LatLng(lat,long);
+        var ponto2 = new google.maps.LatLng(-3.809005, -78.739001);
+        console.log(LatLng)
+        console.log(ponto2)
+       let mapSettings={
+           center: LatLng ,
+           zoom:12,
+           mapTypeId: google.maps.MapTypeId.ROADMAP
+       }
+
+       var map = new google.maps.Map(document.getElementById("mapa"), mapSettings);
+       let marker = new google.maps.Marker({
+        position: LatLng,
+        map: map,
+        draggable:true,
+        title:"Arrastrame"
+      });
+
+      google.maps.event.addListener(marker,"position_changed",function(){
+          getMarkerCoords(marker);
+      })
+      },2000)
+       
+       
+    }
+
+    function getMarkerCoords(marker){
+        var marketCoords= marker.getPosition();
+        $("#latitud").val(marketCoords.lat())
+        $("#longitud").val(marketCoords.lng())
+    }
+
+
+
+</script>
+
+{% endblock %}

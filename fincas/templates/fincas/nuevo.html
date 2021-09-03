@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% block title %}Nueva Finca{% endblock %}
+
+
+  <script>
+  $.fn.datepicker
+  $('[data-toggle="datepicker"]').datepicker();
+$().datepicker({
+  format: 'yyyy-mm-dd',
+    language: "es-ES",
+   autoHide:true
+});
+</script>
+{% block content %}
+
+  <div style="margin:24px 0 24px 0">
+  <form method="POST" novalidate enctype="multipart/form-data">
+     {% csrf_token %}
+  <div>
+    <h2 style="color:black" class="text-center">Datos de la finca</h2>
+  </div>
+  {% if form.errors %}
+   <div class="alert alert-danger alert-dismissible" role="alert" id="liveAlert" >
+  <strong>Faltan algunos datos </strong> 
+  {% for error in form.errors %}
+    {{ error }} -
+{% endfor %}
+</div>
+{% endif %}
+     <div class="form-group">
+            <label class="label-text" for="exampleInputEmail1">NOMBRE DE LA FINCA</label>
+            <input required name="nombre_finca" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+              placeholder="Nombre de la finca">         
+          </div>
+  
+     <div class="form-group">
+            <label class="label-text" for="exampleInputEmail1">UBICACIÓN</label>
+            <input required name="ubicacion" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+              placeholder="Ubicación">         
+          </div>
+
+    
+
+    <div class="form-group">
+ <label class="btn btn-secondary" for="id_imagen">
+    <input style="width:1px !important" accept="image/*" name="imagen" id="id_imagen" required type="file" style="opacity:0" 
+    onchange="$('#upload-file-info').html(this.files[0].name)">
+    Cargar imagen de la finca
+</label>
+<span class='label label-info' id="upload-file-info"></span>
+
+ </div>
+
+       
+
+
+<div class="form-group">
+    <label class="label-text" for="exampleFormControlSelect1">Propietario</label>
+    <select class="form-control" id="exampleFormControlSelect1" name="propietario">
+      <option selected>Seleccione un propietario</option>
+      {% for propietario in propietarios  %}
+  <option value="{{propietario.pk}}">{{propietario.first_name}}</option>
+  {% endfor %}
+  
+    </select>
+  </div>
+
+   <div class="form-group">
+            <label class="label-text" for="exampleInputEmail1">LATITUD</label>
+           <input id="latitud" required name="latitud" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+              placeholder="Latitud">  
+          </div>
+
+     <div class="form-group">
+            <label class="label-text" for="exampleInputEmail1">LONGITUD</label>
+            <input id="longitud" required name="longitud" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+              placeholder="Longitud">         
+          </div>
+          <div class="form-group">
+            <label class="label-text" for="exampleInputEmail1">Mueva el marker en el mapa para cargar la latitu y longitud</label>
+ <div id="mapa" class="mapa">
+  </div>
+  </div>
+            <div class="d-flex justify-content-center">
+
+            <a href="/fincas/" type="submit" class="btn btn-primary w-100" style="background:#DA0037 !important;color:white !important;margin-inline-end:24px">CANCELAR</a>
+            <button type="submit" class="btn btn-primary w-100">GUARDAR</button>
+          </div>
+  </form>
+  </div>
+
+  
+<script async defe src="https://maps.googleapis.com/maps/api/js?key=AIzaSyArd8ySacI8YgCNN0oOj3p59zLf6RkS-5c">
+</script>
+
+  <script>
+  var myAlert = document.getElementById('liveAlert')
+ 
+myAlert.addEventListener('click', function () {
+  // do something, for instance, explicitly move focus to the most appropriate element,
+  // so it doesn't get lost/reset to the start of the page
+  // document.getElementById('...').focus()
+  myAlert.style.display="none"
+})
+$('[data-toggle="datepicker"]').datepicker();
+$().datepicker({
+  format: 'yyyy-mm-dd',
+   language: "es-ES",
+   autoHide:true
+});
+
+
+    if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(getCoords,getError)
+    }else{
+
+    }
+
+    function getCoords(position){
+        let lat=position.coords.latitude; 
+        let long=position.coords.longitude;
+        initMap(lat,long); 
+    }
+
+    function getError(err){
+    
+        initMap(13.30272,-87.194107); 
+    }
+    function initMap(lat,long){
+    
+      setTimeout(()=>{
+         let latlong= new google.maps.LatLng(lat,long);
+       let mapSettings={
+           center: latlong,
+           zoom:12,
+           mapTypeId: google.maps.MapTypeId.ROADMAP
+       }
+
+      var map = new google.maps.Map(document.getElementById("mapa"), mapSettings);
+       let marker = new google.maps.Marker({
+        position: latlong,
+        map: map,
+        draggable:true,
+        title:"Arrastrame"
+      });
+
+      google.maps.event.addListener(marker,"position_changed",function(){
+          getMarkerCoords(marker);
+      })
+      },2000)
+    }
+
+    function getMarkerCoords(marker){
+        var marketCoords= marker.getPosition();
+        $("#latitud").val(marketCoords.lat())
+        $("#longitud").val(marketCoords.lng())
+    }
+
+</script>
+{% endblock %}
