@@ -171,7 +171,7 @@ $background) {
 }
 
 .cultivo {
-    background:linear-gradient(to bottom, #B0D136 0%, #27AB4A 100%);color:;
+    background:linear-gradient(to bottom, #B0D136 0%, #27AB4A 100%);
     color: black;
     padding: 24px;
     border-radius: 8px;
