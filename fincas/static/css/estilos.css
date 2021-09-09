@@ -112,7 +112,7 @@ body {
 }
 
 .container-all {
-    margin-top: 24px !important;
+    margin-top: 25px !important;
 }
 
 [hidden] {
@@ -217,9 +217,34 @@ $background) {
     .titlehome {
       font-size: 10px !important;
     }
-   
-}
+    
+    #titulo-base {
+      font-size: 25px !important;
+      color: white !important;
+      background-color: linear-gradient(#B0D136, #27AB4A);
+      margin-top: 18px;
+      font-family: "Audiowide", sans-serif;
+    }
 
+    .img-finca {
+      width: 200px !important;
+      height: 190px !important;
+    }
+
+    .img-titulo {
+      width: 100px;
+      height: 100px;
+    }
+}
+#titulo-base {
+  font-size: 35px;
+  background: -webkit-linear-gradient(#B0D136, #27AB4A);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-top: 18px;
+  font-family: "Audiowide", sans-serif;
+  
+}
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 
