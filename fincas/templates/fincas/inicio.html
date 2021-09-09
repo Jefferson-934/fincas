@@ -13,12 +13,12 @@
 
     <form method="POST" novalidate class="botons" >
         {% csrf_token %}
-        <button class="btn btn-outline-success my-2 my-sm-0 btn-donwload" type="submit">
-            <i class="fas fa-file-export" ></i> Exportar Datos
-
-        </button >
+        
         <div class="">
-
+            <button class="btn btn-outline-success my-2 my-sm-0 btn-donwload" type="submit">
+                <i class="fas fa-file-export" ></i> Exportar Datos
+    
+            </button >
             <a href="{% url 'nuevo_finca' %}" class="btn btn-primary color-boton-agregar">
                 <i class="fas fa-plus-circle" ></i> AGREGAR FINCA</a>
         </div>
@@ -38,11 +38,11 @@
 
 
 <form>
-    <div class="container mb-5">
+    <div class="">
         <div class="row">
             {% for finca in fincas %}
 
-            <div class="col-md-auto" style="border-color:  #09974d;">
+            <div class="col-md-4" style="border-color:  #09974d;">
                 <div class="card text-center" style="border-radius: 6px; border-color:  #09974d;">
                     <div class="card-header">
 
@@ -50,7 +50,7 @@
                         {{finca.ubicacion}}
                     </div>
                     <div class="card-body"  style="border-color:  #09974d;">
-                        <img width="150px" src="{{ finca.imagen.url }}" />
+                        <img class="img-finca" height="200px" width="250px" src="{{ finca.imagen.url }}" />
                     </div>
                     <div class="card-footer text-muted" style="text-align: initial; border-color: #09974d; background-color: #B0D136;">
                         <p style="color: black;" !important>Propietario: {{finca.propietario}} </p>
@@ -67,8 +67,8 @@
                         </div>
                     </div>
                 </div>
+                <br>
             </div>
-
 
 
 

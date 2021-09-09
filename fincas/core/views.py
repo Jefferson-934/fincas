@@ -42,13 +42,6 @@ def loginu(request):
                 return redirect('perfil_fincas',id=users.pk)
         else:
             return render(request, 'registration/login.html',{"error":"Datos incorrectos"})
-
-        
-        
-
-        
-
-   
         
     return render(request, 'registration/login.html')
 
@@ -359,7 +352,7 @@ def new_finca(request):
 def perfil_fincas(request,id):
     if request.user.is_staff:
         finca = Finca.objects.get(id=id)
-        cultivos_finca=Cultivo.objects.filter(finca=id)
+        cultivos_finca=Cultivo.objects.filter(finca=id).order_by('nombre_lote')
         return render(request, 'fincas/perfil_finca.html',{"finca":finca,"cultivos":cultivos_finca} )
     else:
         propietario= CustomUser.objects.get(id=id)
