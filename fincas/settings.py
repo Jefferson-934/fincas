@@ -98,11 +98,11 @@ AUTH_USER_MODEL = 'core.CustomUser'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'db_fincas',
-        'USER': 'postgres',
-        'PASSWORD': 'asterix2t',
+        'NAME': 'fincas',
+        'USER': 'fincas',
+        'PASSWORD': 'fincas2021',
         'HOST': 'localhost',
-        'PORT': '5433',
+        'PORT': '5432',
     }               
 }
 
