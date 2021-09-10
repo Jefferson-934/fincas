@@ -103,7 +103,7 @@ DATABASES = {
         'PASSWORD': 'asterix2t',
         'HOST': 'localhost',
         'PORT': '5433',
-    }
+    }               
 }
 
 # Password validation

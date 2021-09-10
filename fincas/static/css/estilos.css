@@ -19,6 +19,10 @@ h2 {
 .color {
     background:linear-gradient(to right, #B0D136 0%, #27AB4A 100%);
 }
+.img-titulo{
+  width: 125px !important;
+  height: 125px !important;
+}
 
 .bg-dark {
     background-color: rgb(90, 143, 68) !important;
@@ -175,7 +179,15 @@ $background) {
     color: black;
     padding: 24px;
     border-radius: 8px;
-    border-bottom: black;
+    border-bottom: black !important;
+}
+
+.expediente {
+  background:linear-gradient(to bottom, #B0D136 0%, #27AB4A 100%);
+  color: black;
+  padding: 24px;
+  border-radius: 8px;
+  border-bottom: black;
 }
 
 .tabla {

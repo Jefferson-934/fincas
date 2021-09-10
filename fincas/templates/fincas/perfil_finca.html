@@ -8,6 +8,8 @@
     <h1>{{finca.nombre_finca}} </h1>
     <h5 style="color:#2f2f2f">{{finca.ubicacion}} </h5>
     <h5 style="color:#2f2f2f">{{finca.propietario}} </h5>
+    <h5 style="color:#2f2f2f">{{expedientes.total_cultivos}} </h5>
+
     </div>
     <div>
     </div>
@@ -19,10 +21,25 @@
      <div id="mapa" class="mapa">
   </div>
     </div>
+    <br>
+
     <div>
+         {% for expediente in expedientes %}
+           <div class="expediente"  >
+            <h5>Hectáreas: {{expediente.identificacion}} </h5>
+            <h5>Total de cultivos: {{expediente.total_cultivos}} </h5>
+            <h5>Total de plantas: {{expediente.total_plantas}} </h5>
+            <h5>Plantas existentes: {{expediente.plantas_existentes}} </h5> 
+           </div> 
+           <br>
+    
+         {% endfor %}
+        </div>
+        <hr>
+    <div>
+        
     <br/>
      <h3  style="color:#2f2f2f; font-size: 30px;">Cultivos </h3>
-    <hr />
      {% for cultivo in cultivos %}
        <div class="cultivo" style="border-color: black;" >
         <h3>Planta: {{cultivo.planta}} </h3>
@@ -46,14 +63,7 @@ No tienes fincas registradas
 <div onload=""></div>
 <div onload="hello()"></div>
 
-{% comment %} 
-nombre_finca
-ubicacion
-latitud
-longitud
-propietario
-imagen
- {% endcomment %}
+
 
 
 
