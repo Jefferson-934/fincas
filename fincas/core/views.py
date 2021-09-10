@@ -596,7 +596,7 @@ def obtener_datos(request):
         numero_plantas = 0
         for cul in cultivos:
             planta = Planta.objects.get(pk=cul["planta_id"])
-            #numero_plantas = numero_plantas+int(cul["planta_id"])
+            # numero_plantas = numero_plantas+int(cul["planta_id"])  
             plantas.append(planta.nombre_planta)
 
         return response.JsonResponse({
