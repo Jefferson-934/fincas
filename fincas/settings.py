@@ -95,6 +95,7 @@ AUTH_USER_MODEL = 'core.CustomUser'
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
+#cambios
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
