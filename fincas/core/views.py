@@ -353,7 +353,8 @@ def perfil_fincas(request,id):
     if request.user.is_staff:
         finca = Finca.objects.get(id=id)
         cultivos_finca=Cultivo.objects.filter(finca=id).order_by('nombre_lote')
-        return render(request, 'fincas/perfil_finca.html',{"finca":finca,"cultivos":cultivos_finca} )
+        expedientes_finca=Expediente.objects.filter(finca=id)
+        return render(request, 'fincas/perfil_finca.html',{"finca":finca,"cultivos":cultivos_finca,"expedientes":expedientes_finca} )
     else:
         propietario= CustomUser.objects.get(id=id)
         print(propietario)
@@ -361,12 +362,13 @@ def perfil_fincas(request,id):
             try:
                 finca = Finca.objects.get(propietario=propietario.pk)
                 cultivos_finca=Cultivo.objects.filter(finca=finca.pk)
-                return render(request, 'fincas/perfil_finca.html',{"finca":finca,"cultivos":cultivos_finca} )
+                expedientes_finca=Expediente.objects.filter(finca=finca.pk)
+                return render(request, 'fincas/perfil_finca.html',{"finca":finca,"cultivos":cultivos_finca,"expedientes":expedientes_finca,} )
             except Finca.DoesNotExist:
-                return render(request, 'fincas/perfil_finca.html',{"finca":{},"cultivos":{}} )
+                return render(request, 'fincas/perfil_finca.html',{"finca":{},"cultivos":{},"expedientes":{}} )
                 pass
         else:
-            return render(request, 'fincas/perfil_finca.html',{"finca":{},"cultivos":{}} )
+            return render(request, 'fincas/perfil_finca.html',{"finca":{},"cultivos":{},"expedientes":{}} )
 
 
 @login_required
@@ -594,7 +596,7 @@ def obtener_datos(request):
         numero_plantas = 0
         for cul in cultivos:
             planta = Planta.objects.get(pk=cul["planta_id"])
-            numero_plantas = numero_plantas+int(cul["dimancion_lote"])
+            #numero_plantas = numero_plantas+int(cul["planta_id"])
             plantas.append(planta.nombre_planta)
 
         return response.JsonResponse({

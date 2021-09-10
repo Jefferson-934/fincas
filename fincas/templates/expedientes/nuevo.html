@@ -16,7 +16,7 @@ $().datepicker({
   <div style="margin:24px 0 24px 0">
     <h2 style="color:black" class="text-center">Datos del expediente</h2>
      {% if form.errors %}
-   <div class="alert alert-danger alert-dismissible" role="alert" id="liveAlert" class="liveAlert">
+   <div class="alert alert-danger alert-dismissible" role="alert" id="liveAlert" class="liveAlert" style="background-color:green;">
   <strong>Faltan algunos datos: </strong> 
   {% for error in form.errors %}
     {{ error }} -
