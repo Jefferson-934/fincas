@@ -95,15 +95,14 @@ AUTH_USER_MODEL = 'core.CustomUser'
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
-#cambios
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'fincas',
-        'USER': 'fincas',
-        'PASSWORD': 'fincas2021',
+        'NAME': 'db_fincas',
+        'USER': 'postgres',
+        'PASSWORD': 'asterix2t',
         'HOST': 'localhost',
-        'PORT': '5432',
+        'PORT': '5433',
     }               
 }
 
