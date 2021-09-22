@@ -31,23 +31,23 @@ $().datepicker({
      <div class="form-group">
             <label class="label-text" for="exampleInputEmail1">NOMBRE DEL LOTE</label>
             <input required name="nombre_lote" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-              placeholder="Nombre del lote">         
+              placeholder="Nombre del lote" value="{{form.nombre_lote.value}}">         
           </div>
   
      <div class="form-group">
             <label class="label-text" for="exampleInputEmail1">DIMENSIÓN DEL LOTE</label>
             <input required name="dimancion_lote" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-              placeholder="Dimensión del lote">         
+              placeholder="Dimensión del lote" value="{{form.dimancion_lote.value}}">         
           </div>
      <div class="form-group">
             <label class="label-text" for="exampleInputEmail1">FECHA DE SIEMBRA</label>
-        <input name="fecha_siembra" class="form-control" id="examplefecha" aria-describedby="fecha" data-toggle="datepicker" >
+        <input  name="fecha_siembra" class="form-control" id="examplefecha" aria-describedby="fecha" type="date" name="fecha" value="{{form.fecha_siembra.value}}">
 
           </div>
      <div class="form-group">
             <label class="label-text" for="exampleInputEmail1">TIEMPO DE COSECHA</label>
             <input required name="tiempo_cosecha" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-              placeholder="Tiempo de cosecha">         
+              placeholder="Tiempo de cosecha" value="{{form.tiempo_cosecha.value}}">         
           </div>
 
        

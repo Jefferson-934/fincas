@@ -74,6 +74,27 @@ function eliminar(path,id) {
     })
 }
 
+function eliminar_temp(path,id) {
+    //console.log(id)           
+    Swal.fire({
+        title: 'Estas seguro de eliminar?',
+        text: "Se desactivará el registro!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonText: 'Cancelar',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Eliminar'
+    }).then(function (result) {
+        if (result.isConfirmed) {
+            window.location.href = path + id + "/"
+
+        }
+    })
+}
+
+
+
 
 function activar(path,id) {
     //console.log(id)           
@@ -92,7 +113,27 @@ function activar(path,id) {
 
         }
     })
-}
+} 
+
+function activar_u(path,id) {
+    //console.log(id)           
+    Swal.fire({
+        title: 'Desea activar este registro?',
+        text: "Se activará nuevamente el registro!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonText: 'Cancelar',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si activar'
+    }).then(function (result) {
+        if (result.isConfirmed) {
+            window.location.href = path + id + "/"
+
+        }
+    })
+} 
+
 
 $(document).ready(function(){
 	var altura = $('.navbar').offset().top;

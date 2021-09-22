@@ -17,6 +17,9 @@ import django_excel as exel
 from datetime import datetime
 from django.http import HttpResponse, response
 from excel_response import ExcelResponse
+from django.contrib import messages
+import json as simplejson
+import random 
 
 
 def cerrar(request):
@@ -171,6 +174,7 @@ def new_usuarios(request):
                 user.celular = form.cleaned_data['celular']
                 user.estado = True
                 user.save()
+                messages.success(request, "Usuario registrado con éxito !")
                 return redirect("usuarios")
             else:
                 return render(request, 'usuarios/nuevo.html', {"form": form})
@@ -192,6 +196,8 @@ def actualizar_usuario(request, id):
             usuario_update.email = form.cleaned_data['email']
             usuario_update.celular = form.cleaned_data['celular']
             usuario_update.save()
+            messages.success(request, "Usuario actualizado con éxito !")
+
             return redirect("usuarios")
         else:
             return render(request, 'usuarios/edit.html', {"form": form})
@@ -203,8 +209,19 @@ def actualizar_usuario(request, id):
 def delete_usuario(request, id):
 
     usuarios_delete = CustomUser.objects.get(pk=id)
+    usuarios_delete.estado=False
+    usuarios_delete.save()
+    messages.success(request, "Usuario eliminado con éxito !")
 
-    usuarios_delete.delete()
+    return redirect("usuarios")
+
+@login_required
+def activar_usuario(request, id):
+    usuario_delete = CustomUser.objects.get(pk=id)
+    usuario_delete.estado=True
+    usuario_delete.save()
+    messages.success(request, "Usuario activado con éxito !")
+
     return redirect("usuarios")
 
 
@@ -258,6 +275,8 @@ def new_planta(request):
         print(imagen)
         if form.is_valid():
             form.save()
+            messages.success(request, "Planta registrada con éxito !")
+
             return redirect("plantas")
         else:
             return render(request, 'plantas/nuevo.html', {"form": form})
@@ -275,6 +294,8 @@ def actualizar_planta(request, id):
             request.POST, files=request.FILES, instance=planta_update)
         if form.is_valid():
             form.save()
+            messages.success(request, "Planta actualizada con éxito !")
+
             return redirect("plantas")
         else:
             print(form)
@@ -289,6 +310,8 @@ def delete_planta(request, id):
     planta_delete = Planta.objects.get(pk=id)
 
     planta_delete.delete()
+    messages.success(request, "Planta eliminada con éxito !")
+
     return redirect("plantas")
 
 
@@ -341,6 +364,8 @@ def new_finca(request):
         form = RegisterFincasForms(request.POST, files=request.FILES,)
         if form.is_valid():
             form.save()
+            messages.success(request, "Finca registrada con éxito !")
+
             return redirect("fincas")
         else:
             return render(request, 'fincas/nuevo.html', {"form": form, "propietarios": propietarios})
@@ -381,6 +406,8 @@ def actualizar_finca(request, id):
             request.POST, files=request.FILES, instance=finca_update)
         if form.is_valid():
             form.save()
+            messages.success(request, "Finca actualizada con éxito !")
+
             return redirect("fincas")
         else:
             return render(request, 'fincas/edit.html', {"form": form, "propietarios": propietarios, "finca": finca_update})
@@ -394,6 +421,8 @@ def delete_finca(request, id):
 
     finca_delete.estado=False
     finca_delete.save()
+    messages.success(request, "Finca eliminada con éxito !")
+
     return redirect("fincas")
 
 @login_required
@@ -402,6 +431,8 @@ def activar_finca(request, id):
 
     finca_delete.estado=True
     finca_delete.save()
+    messages.success(request, "Finca activada con éxito !")
+
     return redirect("fincas")
 
 
@@ -445,7 +476,7 @@ def cultivos(request):
         search_text = request.GET.get("search", None)
         if search_text is not None:
             records = Cultivo.objects.filter(
-                planta__nombre_planta__contains=search_text)
+                finca__nombre_finca__contains=search_text)
             return render(request, 'cultivos/inicio.html', {"cultivos": records, "mensaje": "Se encontro {}, cultivos".format(records.count())})
         else:
             return render(request, 'cultivos/inicio.html', {"cultivos": cultivo_list})
@@ -459,6 +490,8 @@ def new_cultivo(request):
         form = RegisterCultivoForms(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, "Cultivo registrado con éxito !")
+
             return redirect("cultivos")
         else:
             return render(request, 'cultivos/nuevo.html', {"form": form, "plantas": plantas, "fincas": fincas})
@@ -478,6 +511,8 @@ def actualizar_cultivo(request, id):
         form = RegisterCultivoForms(request.POST, instance=cultivo_update)
         if form.is_valid():
             form.save()
+            messages.success(request, "Cultivo actualizado con éxito !")
+
             return redirect("cultivos")
         else:
             print(form)
@@ -491,7 +526,48 @@ def delete_cultivo(request, id):
     cultivo_delete = Cultivo.objects.get(pk=id)
 
     cultivo_delete.delete()
+    messages.success(request, "Cultivo eliminado con éxito !")
+
     return redirect("cultivos")
+
+import json
+from django.core import serializers
+def retonarCultivos(request):
+    cultivos=Cultivo.objects.all()
+    lista=[]
+    for cultivo in cultivos:      
+        lista.append({
+            "planta":cultivo.planta.nombre_planta,
+            "finca":cultivo.finca.nombre_finca,            
+        })
+    return response.JsonResponse({"cultivos":lista})
+
+@ login_required
+def estadistica_cultivo(request):
+    list_cultivos = Cultivo.objects.all()
+    list_fincas = Finca.objects.all()
+    list_plantas = Planta.objects.all()
+    voto = []
+    planta = []
+    f = 0
+    p = 0
+    for cultivo in list_cultivos:
+        for finca in list_fincas:
+            for plantita in list_plantas:
+               
+                planta.append(plantita.nombre_planta)
+                voto.append(p)
+    nombreplanta = simplejson.dumps(planta)
+    voto = simplejson.dumps(voto)
+    context={
+        'nombreplanta':nombreplanta,
+        'voto':voto,
+        'f':f,
+    }
+    print(nombreplanta)
+    return render(request,'cultivos/estadistica.html', context)
+
+ 
 
 
 @login_required
@@ -545,6 +621,8 @@ def new_expediente(request):
         form = RegisterExpedientesForms(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, "Expediente creado con éxito !")
+
             return redirect("expedientes")
         else:
 
@@ -565,6 +643,8 @@ def actualizar_expediente(request, id):
             request.POST, instance=expediente_update)
         if form.is_valid():
             form.save()
+            messages.success(request, "Expediente creado con éxito !")
+
             return redirect("expedientes")
         else:
             print(form)
@@ -578,6 +658,8 @@ def delete_expediente(request, id):
     cultivo_delete = Expediente.objects.get(pk=id)
 
     cultivo_delete.delete()
+    messages.success(request, "Expediente eliminado con éxito !")
+
     return redirect("expedientes")
 
 

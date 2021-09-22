@@ -6,6 +6,9 @@ from django.conf.urls.static import static
 from fincas.core import views
 
 urlpatterns = [
+    
+
+    
     path('login/', views.loginu, name='login'),
     path('logout/', views.cerrar, name='logout'),
     path('', views.home, name='home'),
@@ -14,6 +17,8 @@ urlpatterns = [
     path('nuevo_usuarios/', views.new_usuarios, name='nuevo_usuarios'),
     path('delete_usuario/<id>/', views.delete_usuario, name='delete_usuario'),
     path('actualizar_usuario/<id>/', views.actualizar_usuario, name='actualizar_usuario'),
+    path('activar_usuario/<id>/', views.activar_usuario, name='activar_usuario'),
+
 
     #plantas
     path('plantas/', views.plantas, name='plantas'),
@@ -26,6 +31,9 @@ urlpatterns = [
     path('nuevo_cultivo/', views.new_cultivo, name='nuevo_cultivo'),
     path('actualizar_cultivo/<id>/', views.actualizar_cultivo, name='actualizar_cultivo'),
     path('delete_cultivo/<id>/', views.delete_cultivo, name='delete_cultivo'),
+     path('datos_estadisticos/', views.estadistica_cultivo, name='datos_estadisticos'),
+    path('retonarCultivos/', views.retonarCultivos, name='retonarCultivos'),
+
 
 
 

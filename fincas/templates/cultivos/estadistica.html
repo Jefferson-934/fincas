@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{%load static%}
+{% block title %}Estadística de cultivos{% endblock %}
+
+
+
+{%block head%}
+{%endblock%}
+
+{%block content%}
+<figure class="highcharts-figure">
+    <div id="container"></div>
+    <form>
+        {% csrf_token %}
+    </form>
+    <p class="highcharts-description">
+
+    </p>
+</figure>
+
+
+<script>
+
+    $(async () => {
+        let str2 = "";
+        var token = $("[name=csrfmiddlewaretoken]").val()
+        console.log("inicio")
+        let datos = await fetch("/retonarCultivos/", {
+            method: "POST",
+            body: "",
+            headers: { 'X-CSRFToken': token },
+        })
+        let json = await datos.json()
+        console.log(json)
+
+        let planta = []
+        let fincasNumero = []
+        for (const iterator of json.cultivos) {
+            let existeplanta = planta.filter(item => item === iterator.planta).length
+
+            if (existeplanta === 0) {
+
+                planta.push(iterator.planta)
+            }
+
+
+        }
+        let totalTem = 0;
+        for (const iterator of planta) {
+            let total=0;
+            for (const iteratorCul of json.cultivos) {
+                
+                console.log(iterator)
+                console.log(iteratorCul)
+                if (iterator === iteratorCul.planta) {
+                    totalTem=totalTem + 1;
+
+                }
+                console.log(total)
+            }
+            fincasNumero.push(
+               totalTem
+            )
+            total=0;
+            totalTem = 0;
+        }
+        let data = []
+        let plantasData = []
+
+        console.log(fincasNumero)
+        Highcharts.chart('container', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'DATOS ESTADÍSTICOS'
+            },
+            subtitle: {
+                text: 'PERMATREE SUPERFOODS'
+            },
+            xAxis: {
+                categories: [...planta],
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Número de fincas con este cultivo'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:12px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'Fincas',
+                data: fincasNumero
+
+            },]
+        });
+    })
+
+
+</script>
+
+
+{%endblock%}

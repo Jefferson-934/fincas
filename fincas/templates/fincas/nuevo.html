@@ -30,13 +30,13 @@ $().datepicker({
      <div class="form-group">
             <label class="label-text" for="exampleInputEmail1">NOMBRE DE LA FINCA</label>
             <input required name="nombre_finca" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-              placeholder="Nombre de la finca">         
+              placeholder="Nombre de la finca" value="{{form.nombre_finca.value}}">         
           </div>
   
      <div class="form-group">
             <label class="label-text" for="exampleInputEmail1">UBICACIÓN</label>
             <input required name="ubicacion" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-              placeholder="Ubicación">         
+              placeholder="Ubicación" value="{{form.ubicacion.value}}">         
           </div>
 
     
@@ -68,13 +68,13 @@ $().datepicker({
    <div class="form-group">
             <label class="label-text" for="exampleInputEmail1">LATITUD</label>
            <input id="latitud" required name="latitud" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-              placeholder="Latitud">  
+              placeholder="Latitud" value="{{form.latitud.value}}">  
           </div>
 
      <div class="form-group">
             <label class="label-text" for="exampleInputEmail1">LONGITUD</label>
             <input id="longitud" required name="longitud" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-              placeholder="Longitud">         
+              placeholder="Longitud" value="{{form.longitud.value}}">         
           </div>
           <div class="form-group">
             <label class="label-text" for="exampleInputEmail1">Mueva el marker en el mapa para cargar la latitu y longitud</label>
@@ -124,7 +124,7 @@ $().datepicker({
 
     function getError(err){
     
-        initMap(13.30272,-87.194107); 
+        initMap(-3.742973528158527,-78.63045041159111);  
     }
     function initMap(lat,long){
     

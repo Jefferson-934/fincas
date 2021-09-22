@@ -12,7 +12,19 @@ class CustomUserAdmin(admin.ModelAdmin):
         'estado'
         )
     search_fields = ['cedula', 'username']
+
+class FincaAdmin(admin.ModelAdmin):
+    list_display =(
+    'nombre_finca',
+    'ubicacion' ,
+    'latitud' ,
+    'longitud' ,
+    'propietario',
+    )
+
+    search_fields =['nombre_finca']
     
 
 
 admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(Finca, FincaAdmin)

@@ -67,12 +67,19 @@
       <td>{{usuario.estado}} </td>
       <td>
     
-        <a href="{% url "actualizar_usuario" usuario.id %}"  type="submit" class="btn btn-secondary" style="color:white !important;margin-inline-end:24px">
+        <!-- <a href="{% url "actualizar_usuario" usuario.id %}"  type="submit" class="btn btn-secondary" style="color:white !important;margin-inline-end:24px">
           <i class="fas fa-edit"></i> ACTUALIZAR</a>
          <a href="#"onclick="eliminar('/delete_usuario/',{{ usuario.id }})" class="btn btn-outline-danger btn-flat"><i
-                                class="fas fa-trash-alt"></i> ELIMINAR</a>
+                                class="fas fa-trash-alt"></i> ELIMINAR</a> -->
+                              
+         {% if usuario.estado == False %}
+         <a href="#" onclick="activar_u('/activar_usuario/',{{ usuario.id }})" class="btn btn-outline-warning "><i
+             class="fas fa-power-off"></i>  ACTIVAR </a> {% else %}
+          <a href="{% url 'actualizar_usuario' usuario.id %}" type="submit" class="btn btn-secondary" style="color:white !important;margin-inline-end:24px">
+            <i class="fas fa-edit"></i> ACTUALIZAR</a>
+         <a href="#" onclick="eliminar_temp('/delete_usuario/',{{ usuario.id }})" class="btn btn-outline-danger btn-flat"><i
+            class="fas fa-trash-alt"></i> ELIMINAR</a> {% endif %}
     
-
 
        </td>
      

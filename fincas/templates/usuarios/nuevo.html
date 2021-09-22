@@ -27,37 +27,39 @@
      <div class="form-group">
             <label class="label-text" for="exampleInputEmail1">USUARIO</label>
             <input name="username" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-              placeholder="Usuario">         
+              placeholder="Usuario" value="{{form.username.value}}">         
           </div>
      <div class="form-group">
             <label class="label-text" for="exampleInputEmail1">CONTRASEÑA</label>
             <input name="password" type="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-              placeholder="Contraseña">         
+              placeholder="Contraseña" value="{{form.password.value}}">         
           </div>
      <div class="form-group">
             <label class="label-text" for="exampleInputEmail1">CEDULA</label>
             <input name="cedula" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-              placeholder="CEDULA">         
+              placeholder="CEDULA" value="{{form.cedula.value}}">         
           </div>
      <div class="form-group">
             <label class="label-text" for="exampleInputEmail1">CELULAR</label>
             <input name="celular" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-              placeholder="CELULAR">         
+              placeholder="CELULAR" value="{{form.celular.value}}">         
           </div>
      <div class="form-group">
             <label class="label-text" for="exampleInputEmail1">NOMBRES</label>
             <input name="first_name" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-              placeholder="NOMBRES">         
+              placeholder="NOMBRES" value="{{form.first_name.value}}">         
           </div>
      <div class="form-group">
             <label class="label-text" for="exampleInputEmail1">CORREO ELECTRÓNICO</label>
             <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-              placeholder="CORREO ELECTRÓNICO">         
+              placeholder="CORREO ELECTRÓNICO" value="{{form.email.value}}">         
           </div>
             <div class="d-flex justify-content-center">
 
             <a href="/usuarios/" type="submit" class="btn btn-primary w-100" style="background:#DA0037 !important;color:white !important;margin-inline-end:24px" important>CANCELAR</a>
-            <button type="submit" class="btn btn-primary w-100">GUARDAR</button>
+            <button type="submit" id="creado" class="btn btn-primary w-100"> GUARDAR
+              
+            </button>
           </div>
   </form>
   </div>
@@ -69,5 +71,16 @@ myAlert.addEventListener('click', function () {
   // document.getElementById('...').focus()
   myAlert.style.display="none"
 })
+
+function creado() {
+    Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Your work has been saved',
+        showConfirmButton: false,
+        timer: 1500
+      })   
+};
+
 </script>
 {% endblock %}
